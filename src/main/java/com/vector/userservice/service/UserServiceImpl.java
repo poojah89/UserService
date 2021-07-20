@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
 			if (!update) {
 
-				userobj.setEmailId(user.getEmailId());
+				userobj.setEmail(user.getEmail());
 				userobj.setFirstName(user.getFirstName());
 				userobj.setLastName(user.getLastName());
 				userobj.setPassword(user.getPassword());
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
 				if (userEntity.isPresent()) {
 
 					// if(user.getEmailId())
-					userobj.setEmailId(userEntity.get().getEmailId());
+					userobj.setEmail(userEntity.get().getEmail());
 					userobj.setPassword(user.getPassword());
 					userobj.setFirstName(user.getFirstName());
 					userobj.setLastName(user.getLastName());
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService{
 
 		if (userEntity.isPresent()) {
 
-			user.setEmailId(userEntity.get().getEmailId());
+			user.setEmail(userEntity.get().getEmail());
 			user.setPassword(userEntity.get().getPassword());
 			user.setFirstName(userEntity.get().getFirstName());
 			user.setLastName(userEntity.get().getLastName());
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService{
 			}
 
 			UserEntity userEntity = new UserEntity();
-			userEntity.setEmailId(email);
+			userEntity.setEmail(email);
 			userDataRestRepository.deleteByEmailId(email);
 		} catch (Exception ex) {
 			throw new InternalException("400", "User does not exist or already deleted!");

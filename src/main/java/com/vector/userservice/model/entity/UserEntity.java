@@ -27,8 +27,8 @@ public class UserEntity implements Serializable{
 	 * "varchar(256)") private String emailId;
 	 */
 	@Id
-	@Column(name = "emailId", nullable = false)
-	private String emailId;
+	@Column(name = "email", nullable = false)
+	private String email;
 	
 	@Column(name = "password", nullable = false, columnDefinition = "varchar(256)")
 	private String password;
