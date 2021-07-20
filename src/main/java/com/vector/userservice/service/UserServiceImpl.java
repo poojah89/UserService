@@ -11,7 +11,7 @@ import com.vector.userservice.model.entity.UserEntity;
 import com.vector.userservice.repository.UserDataRestRepository;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 
 	private UserDataRestRepository userDataRestRepository;
 
@@ -19,15 +19,16 @@ public class UserServiceImpl {
 		this.userDataRestRepository = userDataRestRepository;
 
 	}
-
-	public String saveUser(final User user, boolean Update, String emailId) throws InternalException {
+	
+	@Override
+	public String saveUser(final User user, boolean update, String emailId) throws InternalException {
 
 		UserEntity userobj = new UserEntity();
 		String resultMessage = "";
 
 		
 
-			if (!Update) {
+			if (!update) {
 
 				userobj.setEmailId(user.getEmailId());
 				userobj.setFirstName(user.getFirstName());
@@ -39,7 +40,7 @@ public class UserServiceImpl {
 
 			}
 
-			if (Update) {
+			if (update) {
 
 				Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
 
@@ -64,7 +65,8 @@ public class UserServiceImpl {
 		
 		return resultMessage;
 	}
-
+	
+	@Override
 	public User getUser(String emailId) throws InternalException {
 
 		User user = new User();
@@ -94,36 +96,10 @@ public class UserServiceImpl {
 
 	}
 
-	public User updateUser(String emailId, final User userob) throws InternalException {
-
-		User user = new User();
-
-		try {
-
-			Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
-
-			if (userEntity.isPresent()) {
-
-				user.setEmailId(userEntity.get().getEmailId());
-				user.setPassword(userEntity.get().getPassword());
-				user.setFirstName(userEntity.get().getFirstName());
-				user.setLastName(userEntity.get().getLastName());
-
-			} else {
-				throw new InternalException("400", "User with email address does not exists - " + emailId);
-			}
-
-		}
-
-		catch (Exception ex) {
-			throw new InternalException("400", "User with email address does not exists - " + emailId);
-		}
-
-		return user;
-
-	}
+	
 
 	@Transactional
+	@Override
 	public String deleteUser(final String email) throws InternalException {
 
 		String message = "The user was deleted successfully.";
