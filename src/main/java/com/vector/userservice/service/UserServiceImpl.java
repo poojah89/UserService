@@ -18,10 +18,16 @@ public class UserServiceImpl {
 
 	}
 
-	public String saveUser(final User user, boolean Update) throws Exception {
+	public String saveUser(final User user, boolean Update, String emailId) throws Exception {
 
+		
+		UserEntity userobj = new UserEntity();
+		String resultMessage="";
+		
 		try {
-			UserEntity userobj = new UserEntity();
+			
+			if(!Update) {
+			
 
 			userobj.setEmailId(user.getEmailId());
 			userobj.setFirstName(user.getFirstName());
@@ -29,13 +35,37 @@ public class UserServiceImpl {
 			userobj.setPassword(user.getPassword());
 
 			UserEntity result = userDataRestRepository.save(userobj);
+			resultMessage= "The user was created successfully.";
 
+		}
+			
+			if(Update) {
+				
+				Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
+				
+				if (userEntity.isPresent()) {
+					
+					//if(user.getEmailId())
+					userobj.setEmailId(userEntity.get().getEmailId());
+					userobj.setPassword(user.getPassword());
+					userobj.setFirstName(user.getFirstName());
+					userobj.setLastName(user.getLastName());
+					
+					UserEntity result = userDataRestRepository.save(userobj);
+					resultMessage= "The user was updated successfully.";
+
+				}
+				else {
+					throw new Exception("User with email address does not exists - " + emailId);
+				}
+				
+			}
 		}
 
 		catch (Exception ex) {
 			throw new Exception(ex.getMessage());
 		}
-		return "User created successfully";
+		return resultMessage;
 	}
 
 	public User getUser(String emailId) throws Exception {
@@ -53,6 +83,36 @@ public class UserServiceImpl {
 				user.setFirstName(userEntity.get().getFirstName());
 				user.setLastName(userEntity.get().getLastName());
 
+			}
+
+		}
+
+		catch (Exception ex) {
+			throw new Exception(ex.getMessage());
+		}
+
+		return user;
+
+	}
+	
+	public User updateUser(String emailId, final User userob) throws Exception {
+
+		User user = new User();
+
+		try {
+
+			Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
+
+			if (userEntity.isPresent()) {
+
+				user.setEmailId(userEntity.get().getEmailId());
+				user.setPassword(userEntity.get().getPassword());
+				user.setFirstName(userEntity.get().getFirstName());
+				user.setLastName(userEntity.get().getLastName());
+
+			}
+			else {
+				throw new Exception("User with email address does not exists - " + emailId);
 			}
 
 		}

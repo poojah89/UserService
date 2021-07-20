@@ -3,7 +3,9 @@ package com.vector.userservice.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,15 +30,23 @@ public class UserController {
 	@PostMapping("/user")
 	public ResponseEntity saveUser(@RequestBody User user) throws Exception {
 		log.info("Recieved request for creating a new user");
-		String result = userServiceImpl.saveUser(user, false);
+		String result = userServiceImpl.saveUser(user, false,null);
 		return new ResponseEntity(result, HttpStatus.CREATED);
+	}
+	
+	
+	@PutMapping("/user/{email}")
+	public ResponseEntity updateUser(@RequestBody User user, @PathVariable String email) throws Exception {
+		log.info("Recieved request for updating an existing user");
+		String result = userServiceImpl.saveUser(user, true, email);
+		return new ResponseEntity(result, HttpStatus.NO_CONTENT);
 	} 
 	
 	
-	@GetMapping("/user")
-	public ResponseEntity getUser(String emailId) throws Exception {
+	@GetMapping("/user/{email}")
+	public ResponseEntity getUser(@PathVariable String email) throws Exception {
 		log.info("Recieved request for creating a new user");
-		User result = userServiceImpl.getUser(emailId);
+		User result = userServiceImpl.getUser(email);
 		return new ResponseEntity(result, HttpStatus.OK);
 	} 
 
