@@ -29,7 +29,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public ResponseEntity saveUser(@RequestBody User user) throws Exception {
+	public ResponseEntity saveUser(@RequestBody User user) throws Exception  {
 		log.info("Recieved request for creating a new user");
 		String result = userServiceImpl.saveUser(user, false,null);
 		return new ResponseEntity(result, HttpStatus.CREATED);
