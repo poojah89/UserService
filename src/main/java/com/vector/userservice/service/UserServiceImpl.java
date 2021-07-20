@@ -3,6 +3,7 @@ package com.vector.userservice.service;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.vector.userservice.model.User;
 import com.vector.userservice.model.entity.UserEntity;
@@ -84,6 +85,10 @@ public class UserServiceImpl {
 				user.setLastName(userEntity.get().getLastName());
 
 			}
+			
+			else {
+				throw new Exception("User with email address does not exists - " + emailId);
+			}
 
 		}
 
@@ -123,6 +128,23 @@ public class UserServiceImpl {
 
 		return user;
 
+	}
+	@Transactional
+	public String deleteUser(final String email) throws Exception {
+		
+		String message = "The user was deleted successfully.";
+		
+		try {
+			UserEntity userEntity = new UserEntity();
+			userEntity.setEmailId(email);
+			userDataRestRepository.deleteByEmailId(email);
+		}
+		catch (Exception ex) {
+			throw new Exception(ex.getMessage());
+		}
+		
+		return message;
+		
 	}
 
 }

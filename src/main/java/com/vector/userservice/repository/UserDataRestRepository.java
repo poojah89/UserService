@@ -13,6 +13,8 @@ public interface UserDataRestRepository extends PagingAndSortingRepository<UserE
 
 	Optional<UserEntity> findByEmailId(String emailId);
 
+	void deleteByEmailId(String email);
+
 	//User save(User userobj);
 	
 }

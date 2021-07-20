@@ -2,6 +2,7 @@ package com.vector.userservice.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,13 @@ public class UserController {
 		log.info("Recieved request for creating a new user");
 		User result = userServiceImpl.getUser(email);
 		return new ResponseEntity(result, HttpStatus.OK);
+	} 
+	
+	@DeleteMapping("/user/{email}")
+	public ResponseEntity deleteUser(@PathVariable String email) throws Exception {
+		log.info("Recieved request for deleting an existing user");
+		String result = userServiceImpl.deleteUser(email);
+		return new ResponseEntity(result, HttpStatus.NO_CONTENT);
 	} 
 
 }
