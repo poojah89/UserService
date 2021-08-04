@@ -11,9 +11,9 @@ import com.vector.userservice.model.entity.UserEntity;
 @RepositoryRestResource(path = "user", collectionResourceRel = "user")
 public interface UserDataRestRepository extends PagingAndSortingRepository<UserEntity,Integer> {
 
-	Optional<UserEntity> findByEmailId(String emailId);
+	Optional<UserEntity> findByEmail(String email);
 
-	void deleteByEmailId(String email);
+	void deleteByEmail(String email);
 
 	//User save(User userobj);
 	

@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
 
 			if (update) {
 
-				Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
+				Optional<UserEntity> userEntity = userDataRestRepository.findByEmail(emailId);
 
 				if (userEntity.isPresent()) {
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService{
 
 		User user = new User();
 
-		Optional<UserEntity> userEntity = userDataRestRepository.findByEmailId(emailId);
+		Optional<UserEntity> userEntity = userDataRestRepository.findByEmail(emailId);
 
 		if (userEntity.isPresent()) {
 
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService{
 
 		try {
 
-			Optional<UserEntity> userEntityExist = userDataRestRepository.findByEmailId(email);
+			Optional<UserEntity> userEntityExist = userDataRestRepository.findByEmail(email);
 
 			if (!userEntityExist.isPresent()) {
 
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
 
 			UserEntity userEntity = new UserEntity();
 			userEntity.setEmail(email);
-			userDataRestRepository.deleteByEmailId(email);
+			userDataRestRepository.deleteByEmail(email);
 		} catch (Exception ex) {
 			throw new InternalException("400", "User does not exist or already deleted!");
 		}
